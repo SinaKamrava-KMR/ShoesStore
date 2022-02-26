@@ -1,9 +1,7 @@
 package com.mainway.store.feature.list
 
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
@@ -22,7 +20,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import timber.log.Timber
 
-class ProductListActivity : NikeActivity(), ProductListAdapter.OnProductClickListener {
+class ProductListActivity : NikeActivity(), ProductListAdapter.ProductEventListener {
 
     private val productListAdapter: ProductListAdapter by inject { parametersOf(VIEW_TYPE_SMALL) }
     private val viewModel: ProductsListViewModel by viewModel {
@@ -57,7 +55,7 @@ class ProductListActivity : NikeActivity(), ProductListAdapter.OnProductClickLis
             finish()
         }
 
-        productListAdapter.onProductClickListener = this
+        productListAdapter.productEventListener = this
 
         viewTypeChangerBtn.setOnClickListener {
             if (productListAdapter.viewType == VIEW_TYPE_SMALL) {
@@ -91,5 +89,9 @@ class ProductListActivity : NikeActivity(), ProductListAdapter.OnProductClickLis
         startActivity(Intent(this, ProductDetailActivity::class.java).apply {
             putExtra(EXTRA_KEY_DATA, product)
         })
+    }
+
+    override fun onFavoriteBtnClick(product: Product) {
+
     }
 }

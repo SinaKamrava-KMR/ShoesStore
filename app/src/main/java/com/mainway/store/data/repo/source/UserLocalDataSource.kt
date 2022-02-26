@@ -1,5 +1,6 @@
 package com.mainway.store.data.repo.source
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import com.mainway.store.data.MessageResponse
 import com.mainway.store.data.TokenContainer
@@ -26,6 +27,23 @@ class UserLocalDataSource(private val sharedPreferences: SharedPreferences) :Use
         sharedPreferences.edit().apply {
             putString("access_token",token)
             putString("refresh_token",refreshToken)
+        }.apply()
+    }
+
+    override fun saveUserName(userName: String) {
+        sharedPreferences.edit().apply {
+            putString("username",userName)
+        }.apply()
+    }
+
+    override fun getUserName(): String {
+     return sharedPreferences.getString("username","")?:""
+    }
+
+    @SuppressLint("CommitPrefEdits")
+    override fun signOut() {
+        sharedPreferences.edit().apply {
+            clear()
         }.apply()
     }
 }

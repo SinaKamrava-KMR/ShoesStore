@@ -25,11 +25,11 @@ import org.koin.core.parameter.parametersOf
 import timber.log.Timber
 
 
-class HomeFragment : NikeFragment(), ProductListAdapter.OnProductClickListener {
+class HomeFragment : NikeFragment(), ProductListAdapter.ProductEventListener {
 
     private val homeViewModel: HomeViewModel by viewModel()
-    private val productListAdapter: ProductListAdapter by inject{parametersOf(VIEW_TYPE_ROUND)}
-    private val productPopularAdapter: ProductListAdapter by inject{ parametersOf(VIEW_TYPE_ROUND)}
+    private val productListAdapter: ProductListAdapter by inject { parametersOf(VIEW_TYPE_ROUND) }
+    private val productPopularAdapter: ProductListAdapter by inject { parametersOf(VIEW_TYPE_ROUND) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,12 +44,12 @@ class HomeFragment : NikeFragment(), ProductListAdapter.OnProductClickListener {
 
         latestProducts.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
-        productListAdapter.onProductClickListener = this
+        productListAdapter.productEventListener = this
         latestProducts.adapter = productListAdapter
 
         popularProducts.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
-        productPopularAdapter.onProductClickListener = this
+        productPopularAdapter.productEventListener = this
         popularProducts.adapter = productPopularAdapter
 
 
@@ -63,8 +63,8 @@ class HomeFragment : NikeFragment(), ProductListAdapter.OnProductClickListener {
             productPopularAdapter.products = it as ArrayList<Product>
         }
 
-        viewLatestProductBtn.setOnClickListener{
-            startActivity(Intent(requireContext(),ProductListActivity::class.java).apply {
+        viewLatestProductBtn.setOnClickListener {
+            startActivity(Intent(requireContext(), ProductListActivity::class.java).apply {
                 putExtra(EXTRA_KEY_DATA, SORT_LATEST)
             })
         }
@@ -97,6 +97,10 @@ class HomeFragment : NikeFragment(), ProductListAdapter.OnProductClickListener {
         })
 
 
+    }
+
+    override fun onFavoriteBtnClick(product: Product) {
+        homeViewModel.addToProductFavorite(product)
     }
 
 

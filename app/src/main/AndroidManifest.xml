@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.mainway.store">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,9 +15,30 @@
         android:theme="@style/Theme.Store"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".feature.favorite.FavoriteProductsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature.checkout.CheckoutActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="expertdeveloper.ir"
+                    android:pathPattern="/appCheckout"
+                    android:scheme="nike" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".feature.shipping.ShippingActivity"
+            android:exported="false" />
+        <activity
             android:name=".feature.auth.AuthActivity"
             android:exported="false"
-            android:theme="@style/Theme.Nike.AuthTheme"/>
+            android:theme="@style/Theme.Nike.AuthTheme" />
         <activity
             android:name=".feature.list.ProductListActivity"
             android:exported="false" />

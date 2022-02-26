@@ -63,6 +63,8 @@ abstract class NikeActivity : AppCompatActivity(), NikeView {
         EventBus.getDefault().unregister(this)
         super.onDestroy()
     }
+
+
 }
 
 interface NikeView {
@@ -107,6 +109,23 @@ interface NikeView {
             Snackbar.make(it, message, duration).show()
         }
     }
+
+    fun showEmptyState(layoutResId: Int): View? {
+        rootView?.let {
+            viewContext?.let { context ->
+                var emptyState = it.findViewById<View>(R.id.emptyStateRootView)
+                if (emptyState == null) {
+                    emptyState = LayoutInflater.from(context).inflate(layoutResId, it, false)
+                    it.addView(emptyState)
+                }
+                emptyState.visibility = View.VISIBLE
+                return emptyState
+            }
+        }
+        return null
+    }
+
+
 }
 
 abstract class NikeViewModel : ViewModel() {

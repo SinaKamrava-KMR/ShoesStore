@@ -15,7 +15,7 @@ import java.lang.IllegalStateException
 
 class BannerFragment : Fragment() {
 
-    val imageLoadingService: ImageLoadingService by inject()
+    private val imageLoadingService: ImageLoadingService by inject()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

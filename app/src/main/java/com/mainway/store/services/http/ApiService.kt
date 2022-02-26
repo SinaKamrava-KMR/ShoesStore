@@ -28,6 +28,18 @@ interface ApiService {
     @POST("cart/add")
     fun addToCart(@Body jsonObject: JsonObject):Single<AddToCartResponse>
 
+    @POST("cart/remove")
+    fun removeItemFromCart(@Body jsonObject: JsonObject):Single<MessageResponse>
+
+    @GET("cart/list")
+    fun getCart():Single<CartResponse>
+
+    @POST("cart/changeCount")
+    fun changeCount(@Body jsonObject: JsonObject):Single<AddToCartResponse>
+
+    @GET("cart/count")
+    fun getCartItemCount():Single<CartItemCount>
+
     @POST("auth/token")
     fun login(@Body jsonObject: JsonObject):Single<TokenResponse>
 
@@ -36,6 +48,13 @@ interface ApiService {
 
     @POST("auth/token")
     fun refreshToken(@Body jsonObject: JsonObject):Call<TokenResponse>
+
+
+    @POST("order/submit")
+    fun submitOrder(@Body jsonObject: JsonObject):Single<SubmitOrderResult>
+
+    @GET("order/checkout")
+    fun checkout(@Query("order_id") orderId:Int):Single<Checkout>
 
 }
 

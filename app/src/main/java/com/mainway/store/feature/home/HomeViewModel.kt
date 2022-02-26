@@ -2,6 +2,7 @@ package com.mainway.store.feature.home
 
 
 import androidx.lifecycle.MutableLiveData
+import com.mainway.store.common.NikeCompletableObserve
 import com.mainway.store.common.NikeSingleObserver
 
 import com.mainway.store.data.Product
@@ -15,7 +16,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 
-class HomeViewModel(productRepository: ProductRepository, bannerRepository: BannerRepository) :
+class HomeViewModel(private val productRepository: ProductRepository, bannerRepository: BannerRepository) :
     NikeViewModel() {
 
     val productLiveData = MutableLiveData<List<Product>>()
@@ -59,6 +60,28 @@ class HomeViewModel(productRepository: ProductRepository, bannerRepository: Bann
                 }
 
             })
+    }
+
+    fun addToProductFavorite(product: Product){
+        if (product.isFavorite){
+            productRepository.deleteFromFavorite(product).subscribeOn(Schedulers.io())
+                .subscribe(object :NikeCompletableObserve(compositeDisposable){
+                    override fun onComplete() {
+                        product.isFavorite=false
+                    }
+
+                })
+        }else{
+            productRepository.addToFavorite(product).subscribeOn(Schedulers.io())
+                .subscribe(object :NikeCompletableObserve(compositeDisposable){
+                    override fun onComplete() {
+                        product.isFavorite=true
+                    }
+
+                })
+        }
+
+
     }
 
 }
